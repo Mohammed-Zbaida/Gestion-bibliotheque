@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Livre;
 use App\Models\Auteur;
 
+
 class LivreController extends Controller
 {
     /**
@@ -87,5 +88,13 @@ class LivreController extends Controller
 {
     $livre->delete();
     return redirect()->route('livres.index');
+}
+protected static function boot()
+{
+    parent::boot();
+
+    static::updated(function ($book) {
+        event(new \App\Events\BookUpdated($book));
+    });
 }
 }

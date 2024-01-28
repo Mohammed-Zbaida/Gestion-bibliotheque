@@ -13,5 +13,7 @@ class Auteur extends Model
     public function livres()
     {
         return $this->hasMany(Livre::class);
+
+
     }
 }

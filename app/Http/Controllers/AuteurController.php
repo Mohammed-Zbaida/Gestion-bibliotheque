@@ -77,7 +77,12 @@ class AuteurController extends Controller
      */
     public function destroy(Auteur $auteur)
 {
-    $auteur->delete();
+    $auteur->livres()->delete();
+
+    $auteur->delete(
+
+    );
+
     return redirect()->route('auteurs.index');
 }
 

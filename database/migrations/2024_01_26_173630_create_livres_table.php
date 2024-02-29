@@ -16,7 +16,10 @@ return new class extends Migration
             $table->string('titre');
             $table->year('année_de_publication')->nullable();
             $table->integer('nombre_de_pages')->nullable();
-            $table->foreignId('auteur_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreign('auteur_id')
+      ->references('id')
+      ->on('auteurs')
+      ->onDelete('set null');
             $table->timestamps();
         });
     }

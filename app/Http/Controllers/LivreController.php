@@ -15,33 +15,29 @@ class LivreController extends Controller
     public function index()
     {
         $livres = Livre::with('auteur')->paginate(10);
-        return view('livres.index', compact('livres')); // Retourne la vue avec les livres
+        return view('livres.index', compact('livres'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         $auteurs = Auteur::all();
         return view('livres.create', compact('auteurs'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'titre' => 'required|string',
-            'auteur_id' => 'required|exists:auteurs,id',
-            'année_de_publication' => 'required|integer',
-            'nombre_de_pages' => 'required|integer'
+            'nom' => 'required|string',
+            'prenom' => 'required|exists:auteurs,id',
+            'genre' => 'required|integer',
+
         ]);
 
         Livre::create($validatedData);
 
-        return redirect()->route('livres.index');
+        return redirect()->route('Joueur.index');
     }
 
 
@@ -58,7 +54,7 @@ class LivreController extends Controller
      */
     public function edit(Livre $livre)
 {
-    $auteurs = Auteur::all(); // Récupère la liste des auteurs pour le menu déroulant
+    $auteurs = Auteur::all();
     return view('livres.edit', compact('livre', 'auteurs'));
 }
 
@@ -89,12 +85,5 @@ class LivreController extends Controller
     $livre->delete();
     return redirect()->route('livres.index');
 }
-protected static function boot()
-{
-    parent::boot();
 
-    static::updated(function ($book) {
-        event(new \App\Events\BookUpdated($book));
-    });
-}
 }
